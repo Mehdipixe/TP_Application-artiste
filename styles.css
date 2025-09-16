@@ -92,16 +92,18 @@ body::after {
     font-size: 2.8em;
     margin-bottom: 10px;
     letter-spacing: 2px;
-    text-shadow: 0 0 16px #ff00cc, 0 2px 8px #000a;
-    background: linear-gradient(90deg, #ff00cc 0%, #00eaff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 8px #000a, 0 0 2px #222;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
 }
 .header p {
     color: #e0e0e0;
     font-size: 1.15em;
     margin-bottom: 20px;
-    text-shadow: 0 1px 4px #0008;
+    text-shadow: 0 1px 2px #000a;
+    background: none;
 }
 
 .main-content {
@@ -112,7 +114,7 @@ body::after {
 }
 
 .form-section, .display-section {
-    background: rgba(20, 10, 40, 0.98);
+    background: #1a1333;
     padding: 32px 24px;
     border-radius: 24px;
     box-shadow: 0 8px 32px #000a;
@@ -125,7 +127,8 @@ body::after {
     margin-bottom: 20px;
     font-size: 1.7em;
     letter-spacing: 1px;
-    text-shadow: 0 0 8px #00eaff, 0 2px 8px #000a;
+    text-shadow: 0 2px 8px #000a, 0 0 2px #222;
+    background: none;
 }
 
 .form-group label {
