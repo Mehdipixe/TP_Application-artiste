@@ -1,3 +1,35 @@
+// --- Fonctions artistes (CRUD) ---
+// Récupérer tous les artistes (table 'artistes')
+export async function fetchArtistes() {
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase
+        .from('artistes')
+        .select('*')
+        .order('nom', { ascending: true });
+    if (error) {
+        console.error('Erreur récupération artistes:', error);
+        return [];
+    }
+    return data;
+}
+
+// Ajouter un artiste (objet: { nom, style, image_url, description, pays })
+export async function addArtiste(artiste) {
+    const supabase = await getSupabaseClient();
+    const { data, error } = await supabase
+        .from('artistes')
+        .insert([artiste]);
+    if (error) {
+        console.error('Erreur ajout artiste:', error);
+        return null;
+    }
+    return data ? data[0] : null;
+}
+
+// Exemple d'utilisation :
+// import { fetchArtistes, addArtiste } from './supabaseClient.js';
+// fetchArtistes().then(artistes => console.log(artistes));
+// addArtiste({ nom: 'Nouveau Nom', style: 'Pop', image_url: '', description: '', pays: '' });
 // supabaseClient.js - Version corrigée avec attente du chargement
 // Ce module initialise et exporte le client Supabase
 
