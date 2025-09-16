@@ -5,7 +5,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #4caf50;
+    background: #50d0f7;
     color: white;
     padding: 12px 20px;
     border-radius: 8px;
@@ -28,11 +28,11 @@
 }
 
 .notification.error {
-    background: #f44336;
+    background: #f43636;
 }
 
 .notification.success {
-    background: #4caf50;
+    background: #f34a90;
 }
 
 .notification {
