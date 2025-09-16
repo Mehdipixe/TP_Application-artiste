@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎭 Emoji Code Mood - Application</title>
+    <title>🎵 Music Mood - Goûts Musicaux</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,18 +14,17 @@
 <body class="page-content gradient-bg">
     <!-- Navigation principale -->
     <nav class="main-nav">
-        <a class="nav-link" href="index.html">� Application (index)</a>
-        <a class="nav-link active" href="app.html" aria-current="page">� Ancienne App (copie)</a>
+    <a class="nav-link" href="index.html">🎵 Music Mood (index)</a>
+    <a class="nav-link active" href="app.html" aria-current="page">🎵 Goûts Musicaux</a>
         <a class="nav-link" href="dashboard.html">🎛 Tableau de bord</a>
-        <a class="nav-link" href="docs/formation/">📚 Formation</a>
-        <a class="nav-link" href="checklist.html">📋 Progression</a>
+      <a class="nav-link" href="artistes.html">🎛 Artistes</a>
     </nav>
 
     <div class="container" style="max-width:1200px; margin:0 auto;">
         <!-- En-tête + statut connexion -->
         <header class="header" style="padding-top:1rem;">
-            <h1 class="page-title animate-bounce" style="margin-bottom:.25rem;">🎭 Emoji Code Mood</h1>
-            <p class="page-subtitle" style="margin-top:0;">Exprime ton humeur avec tes préférences et découvre l'ambiance de la classe en temps réel !</p>
+            <h1 class="page-title animate-bounce" style="margin-bottom:.25rem;">🎵 Music Mood</h1>
+            <p class="page-subtitle" style="margin-top:0;">Partage ton humeur musicale et découvre les goûts musicaux de la classe en temps réel !</p>
             <div class="mode-indicator" id="modeIndicator">
                 <span id="modeIcon">⚡</span>
                 <span id="modeText">Initialisation...</span>
@@ -51,7 +50,7 @@
         <div class="main-content" style="display:flex; flex-wrap:wrap; gap:2rem; align-items:flex-start;">
             <!-- Formulaire principal -->
             <div class="form-section card" style="flex:1 1 380px;">
-                <h2 style="margin-top:0;">📝 Code ton humeur</h2>
+                <h2 style="margin-top:0;">🎶 Partage ton humeur musicale</h2>
                 <form id="moodForm">
                     <div class="form-group">
                         <label for="studentName">Ton prénom :</label>
@@ -59,172 +58,61 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Choisis ton emoji humeur :</label>
+                        <label>Choisis ton emoji musical :</label>
                         <div class="emoji-selector">
-                            <!-- Jeu d'emojis complet (repris de demo.html) -->
-                            <!-- Énergie et motivation -->
-                            <button type="button" class="emoji-btn" data-emoji="🔥" title="Feu - Motivé à fond">🔥</button>
-                            <button type="button" class="emoji-btn" data-emoji="💪" title="Muscle - Prêt au combat">💪</button>
-                            <button type="button" class="emoji-btn" data-emoji="🚀" title="Fusée - Décollage immédiat">🚀</button>
-                            <button type="button" class="emoji-btn" data-emoji="⚡" title="Éclair - Énergie électrique">⚡</button>
-                            <button type="button" class="emoji-btn" data-emoji="🌟" title="Étoile - Brillant aujourd'hui">🌟</button>
-                            <button type="button" class="emoji-btn" data-emoji="✨" title="Étincelles - Magique">✨</button>
-                            <!-- Fatigue et repos -->
-                            <button type="button" class="emoji-btn" data-emoji="😴" title="Endormi - Mode sieste">😴</button>
-                            <button type="button" class="emoji-btn" data-emoji="🥱" title="Bâillement - Fatigue">🥱</button>
-                            <button type="button" class="emoji-btn" data-emoji="☕" title="Café - Besoin de caféine">☕</button>
-                            <button type="button" class="emoji-btn" data-emoji="🛌" title="Lit - Envie de dormir">🛌</button>
-                            <button type="button" class="emoji-btn" data-emoji="💤" title="ZZZ - Assoupi">💤</button>
-                            <button type="button" class="emoji-btn" data-emoji="🧟" title="Zombie - Mode survie">🧟</button>
-                            <!-- Stress et défi -->
-                            <button type="button" class="emoji-btn" data-emoji="🤯" title="Explosion - Cerveau overload">🤯</button>
-                            <button type="button" class="emoji-btn" data-emoji="😰" title="Sueur - Stress intensif">😰</button>
-                            <button type="button" class="emoji-btn" data-emoji="🥵" title="Chaud - Pression maximum">🥵</button>
-                            <button type="button" class="emoji-btn" data-emoji="😓" title="Goutte sueur - Inquiet">😓</button>
-                            <button type="button" class="emoji-btn" data-emoji="🤪" title="Fou - Complètement perché">🤪</button>
-                            <button type="button" class="emoji-btn" data-emoji="�" title="À l'envers - Monde inversé">�</button>
-                            <!-- Confiance et cool -->
-                            <button type="button" class="emoji-btn" data-emoji="😎" title="Cool - Maître de l'univers">😎</button>
-                            <button type="button" class="emoji-btn" data-emoji="😏" title="Smirk - Je sais tout">😏</button>
-                            <button type="button" class="emoji-btn" data-emoji="�" title="Geek - Mode intellectuel">�</button>
-                            <button type="button" class="emoji-btn" data-emoji="😌" title="Zen - Serein">😌</button>
-                            <button type="button" class="emoji-btn" data-emoji="😊" title="Sourire - Bonne humeur">😊</button>
-                            <button type="button" class="emoji-btn" data-emoji="😁" title="Grand sourire - Joie">�</button>
-                            <!-- Réflexion et questionnement -->
-                            <button type="button" class="emoji-btn" data-emoji="🤔" title="Réflexion - Cogite">🤔</button>
-                            <button type="button" class="emoji-btn" data-emoji="🧐" title="Analyse poussée">🧐</button>
-                            <button type="button" class="emoji-btn" data-emoji="👀" title="Observation">👀</button>
-                            <button type="button" class="emoji-btn" data-emoji="🤨" title="Sceptique">🤨</button>
-                            <button type="button" class="emoji-btn" data-emoji="�" title="Grimace">�</button>
-                            <button type="button" class="emoji-btn" data-emoji="😕" title="Déçu">😕</button>
-                            <!-- Humour et légèreté -->
-                            <button type="button" class="emoji-btn" data-emoji="😅" title="Rire nerveux">😅</button>
-                            <button type="button" class="emoji-btn" data-emoji="�" title="Larmes de joie">�</button>
-                            <button type="button" class="emoji-btn" data-emoji="🤣" title="Rire aux éclats">🤣</button>
-                            <button type="button" class="emoji-btn" data-emoji="😄" title="Sourire éclatant">😄</button>
-                            <button type="button" class="emoji-btn" data-emoji="🥳" title="Fête">🥳</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎉" title="Confettis">🎉</button>
-                            <!-- Tech et geek -->
-                            <button type="button" class="emoji-btn" data-emoji="💻" title="Laptop - Dev">💻</button>
-                            <button type="button" class="emoji-btn" data-emoji="🖥️" title="Desktop">🖥️</button>
-                            <button type="button" class="emoji-btn" data-emoji="⌨️" title="Clavier">⌨️</button>
-                            <button type="button" class="emoji-btn" data-emoji="🤖" title="Robot - IA">🤖</button>
-                            <button type="button" class="emoji-btn" data-emoji="👾" title="Alien - Gaming">👾</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎯" title="Objectif">🎯</button>
-                            <!-- Spéciaux -->
-                            <button type="button" class="emoji-btn" data-emoji="�" title="Licorne">�</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎭" title="Masques">🎭</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎲" title="Hasard">🎲</button>
-                            <button type="button" class="emoji-btn" data-emoji="🌈" title="Arc-en-ciel">🌈</button>
-                            <button type="button" class="emoji-btn" data-emoji="🍕" title="Pizza">🍕</button>
+                            <!-- Emojis musicaux et humeur -->
+                            <button type="button" class="emoji-btn" data-emoji="🎵" title="Note de musique">🎵</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎶" title="Double note">🎶</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎤" title="Microphone - Chanteur">🎤</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎧" title="Casque audio">🎧</button>
                             <button type="button" class="emoji-btn" data-emoji="🎸" title="Guitare">🎸</button>
+                            <button type="button" class="emoji-btn" data-emoji="🥁" title="Batterie">🥁</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎹" title="Piano">🎹</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎺" title="Trompette">🎺</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎻" title="Violon">🎻</button>
+                            <button type="button" class="emoji-btn" data-emoji="🪗" title="Accordéon">🪗</button>
+                            <button type="button" class="emoji-btn" data-emoji="🪕" title="Banjo">🪕</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎷" title="Saxophone">🎷</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎼" title="Partition">🎼</button>
+                            <button type="button" class="emoji-btn" data-emoji="🕺" title="Danseur">🕺</button>
+                            <button type="button" class="emoji-btn" data-emoji="💃" title="Danseuse">💃</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎤" title="Chanter">🎤</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎚️" title="Mixage">🎚️</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎛️" title="Table de mixage">🎛️</button>
+                            <button type="button" class="emoji-btn" data-emoji="🎙️" title="Micro vintage">🎙️</button>
+                            <button type="button" class="emoji-btn" data-emoji="🪩" title="Boule disco">🪩</button>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="favoriteLanguage">Mon langage préféré :</label>
-                        <select id="favoriteLanguage" required>
-                            <option value="">Choisis ton langage préféré</option>
-                            <option value="javascript">JavaScript</option>
-                            <option value="typescript">TypeScript</option>
-                            <option value="python">Python</option>
-                            <option value="java">Java</option>
-                            <option value="csharp">C#</option>
-                            <option value="php">PHP</option>
-                            <option value="cpp">C++</option>
-                            <option value="rust">Rust</option>
-                            <option value="go">Go</option>
-                            <option value="kotlin">Kotlin</option>
-                            <option value="swift">Swift</option>
-                            <option value="ruby">Ruby</option>
+                        <label for="favoriteMusic">Ton style musical préféré :</label>
+                        <select id="favoriteMusic" required>
+                            <option value="">Choisis ton style préféré</option>
+                            <option value="pop">Pop</option>
+                            <option value="rock">Rock</option>
+                            <option value="rap">Rap</option>
+                            <option value="electro">Électro</option>
+                            <option value="jazz">Jazz</option>
+                            <option value="classique">Classique</option>
+                            <option value="metal">Metal</option>
+                            <option value="reggae">Reggae</option>
+                            <option value="blues">Blues</option>
+                            <option value="folk">Folk</option>
+                            <option value="rnb">R&B</option>
+                            <option value="kpop">K-Pop</option>
+                            <option value="autre">Autre</option>
                         </select>
-                        <!-- Champ caché pour compat avec main.js (disable/enable #language) -->
-                        <input type="hidden" id="language" value="">
+                        <input type="hidden" id="music" value="">
                     </div>
 
                     <div class="form-group">
-                        <label for="otherPreference">Ma préférence tech :</label>
-                        <select id="otherPreference" required>
-                            <option value="">Choisis ta préférence</option>
-                            <optgroup label="🎮 Gaming & Fun">
-                                <option value="jeux-video">Jeux vidéo</option>
-                                <option value="streaming">Streaming</option>
-                                <option value="youtube">YouTube</option>
-                                <option value="twitch">Twitch</option>
-                            </optgroup>
-                            <optgroup label="🎨 Design & Créativité">
-                                <option value="design">Design graphique</option>
-                                <option value="photoshop">Photoshop</option>
-                                <option value="video-editing">Montage vidéo</option>
-                                <option value="ui-ux">UI/UX</option>
-                            </optgroup>
-                            <optgroup label="🎵 Musique & Audio">
-                                <option value="musique">Écouter de la musique</option>
-                                <option value="spotify">Spotify</option>
-                                <option value="production-musicale">Production musicale</option>
-                                <option value="podcasts">Podcasts</option>
-                            </optgroup>
-                            <optgroup label="🤖 Tech & IA">
-                                <option value="intelligence-artificielle">Intelligence Artificielle</option>
-                                <option value="chatgpt">ChatGPT</option>
-                                <option value="robotique">Robotique</option>
-                                <option value="blockchain">Blockchain</option>
-                            </optgroup>
-                            <optgroup label="📱 Mobile & Apps">
-                                <option value="apps-mobiles">Apps mobiles</option>
-                                <option value="tiktok">TikTok</option>
-                                <option value="instagram">Instagram</option>
-                                <option value="snapchat">Snapchat</option>
-                            </optgroup>
-                            <optgroup label="🏃 Sport & Activités">
-                                <option value="sport">Sport</option>
-                                <option value="fitness">Fitness</option>
-                                <option value="course">Course à pied</option>
-                                <option value="velo">Vélo</option>
-                            </optgroup>
-                            <optgroup label="🎬 Cinéma & Séries">
-                                <option value="netflix">Netflix</option>
-                                <option value="series">Séries TV</option>
-                                <option value="cinema">Cinéma</option>
-                                <option value="disney">Disney+</option>
-                            </optgroup>
-                            <optgroup label="📚 Apprentissage">
-                                <option value="lecture">Lecture</option>
-                                <option value="cours-en-ligne">Cours en ligne</option>
-                                <option value="langues">Apprendre des langues</option>
-                                <option value="tutoriels">Tutoriels</option>
-                            </optgroup>
-                            <optgroup label="🍔 Lifestyle">
-                                <option value="cuisine">Cuisine</option>
-                                <option value="voyage">Voyage</option>
-                                <option value="shopping">Shopping</option>
-                                <option value="nature">Nature</option>
-                            </optgroup>
-                        </select>
+                        <label for="favoriteArtist">Ton artiste ou groupe préféré :</label>
+                        <input type="text" id="favoriteArtist" required placeholder="Ex: Dua Lipa, Imagine Dragons, Ninho..." maxlength="40">
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Commentaire (optionnel) :</label>
-                        <input type="text" id="comment" placeholder="Clique pour des idées..." list="commentSuggestions" maxlength="100">
-                        <datalist id="commentSuggestions">
-                            <option value="prêt pour attaquer les projets">
-                            <option value="besoin d'un deuxième café">
-                            <option value="cerveau en surchauffe">
-                            <option value="easy peasy lemon squeezy">
-                            <option value="mode réflexion intense">
-                            <option value="je fais semblant de comprendre">
-                            <option value="404 motivation not found">
-                            <option value="humeur de licorne cosmique">
-                            <option value="while(motivation) { code(); }">
-                            <option value="git commit -m 'nouvelle année'">
-                            <option value="printf('hello world');">
-                            <option value="sudo apt install motivation">
-                            <option value="import bonheur from 'vacances'">
-                            <option value="let humeur = 'géniale'">
-                            <option value="humeur = 'au top'">
-                            <option value="feeling like a coding wizard">
-                            <option value="mode ninja developer activated">
-                        </datalist>
+                        <label for="comment">Ta chanson ou album du moment (optionnel) :</label>
+                        <input type="text" id="comment" placeholder="Ex: Flowers, Thriller, Lose Yourself..." maxlength="100">
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">Envoyer mon code humeur ! 🚀</button>
@@ -234,11 +122,11 @@
 
             <!-- Affichage temps réel -->
             <div class="display-section" style="flex:1 1 460px; min-width:340px;">
-                <h2 style="margin-top:0;">💻 Ambiance de la classe</h2>
+                <h2 style="margin-top:0;">🎼 Ambiance musicale de la classe</h2>
                 <div class="mood-list social-feed" id="moodList">
                     <div class="loading">
-                        <p>🤖 En attente des premiers codes humeur...</p>
-                        <p style="font-size: 0.9em; margin-top: 10px; color: #666;">Partage ton humeur pour commencer !</p>
+                        <p>🎧 En attente des premiers partages musicaux...</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #666;">Partage ton mood musical pour commencer !</p>
                     </div>
                 </div>
             </div>
@@ -247,7 +135,7 @@
         <!-- Panneau admin caché injecté dynamiquement (hiddenAdminPanel) -->
     </div>
 
-    <footer class="dashboard-footer" style="margin-top:3rem;">© <span id="year"></span> Emoji Code Mood • Pédagogie & Temps Réel</footer>
+    <footer class="dashboard-footer" style="margin-top:3rem;">© <span id="year"></span> Music Mood • Goûts musicaux & Partage</footer>
 
     <!-- Configuration privée (injectée par GitHub Actions en production) -->
     <script src="private-config.js"></script>
@@ -255,10 +143,10 @@
     <script type="module" src="main.js"></script>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        // Synchroniser valeur cachée #language pour compat éventuelle
-        const fav = document.getElementById('favoriteLanguage');
-        const hiddenLang = document.getElementById('language');
-        fav.addEventListener('change', () => hiddenLang.value = fav.value);
+    // Synchroniser valeur cachée #music pour compat éventuelle
+    const fav = document.getElementById('favoriteMusic');
+    const hiddenMusic = document.getElementById('music');
+    fav.addEventListener('change', () => hiddenMusic.value = fav.value);
     </script>
 </body>
 </html>
