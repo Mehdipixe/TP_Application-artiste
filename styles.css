@@ -10,7 +10,7 @@ body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     padding: 20px;
-    color: #f3f3f3;
+    color: #b0b0b0;
     background: linear-gradient(120deg, #1a0033 0%, #2d0b4e 50%, #0e1a2b 100%);
     position: relative;
     overflow-x: hidden;
@@ -88,7 +88,7 @@ body::after {
     overflow: hidden;
 }
 .header h1 {
-    color: #fff;
+    color: #cccccc;
     font-size: 2.8em;
     margin-bottom: 10px;
     letter-spacing: 2px;
