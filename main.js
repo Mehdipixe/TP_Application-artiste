@@ -441,7 +441,12 @@ function updateMoodList() {
 
     const userName = document.getElementById('studentName')?.value?.trim();
     listContainer.innerHTML = artistes
-        .filter(artiste => userName && artiste.nom !== userName)
+        .filter(artiste => {
+            // Afficher uniquement les visiteurs (ni Prof, ni l'utilisateur courant)
+            if (!userName) return true;
+            const nom = (artiste.nom || '').toLowerCase();
+            return nom !== userName.toLowerCase() && nom !== 'prof' && nom !== 'professeur';
+        })
         .map(artiste => {
             return `
                 <div class="mood-item">
