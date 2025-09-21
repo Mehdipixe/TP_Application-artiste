@@ -58,30 +58,29 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Choisis ton emoji musical :</label>
-                        <div class="emoji-selector">
-                            <!-- Emojis musicaux et humeur -->
-                            <button type="button" class="emoji-btn" data-emoji="🎵" title="Note de musique">🎵</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎶" title="Double note">🎶</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎤" title="Microphone - Chanteur">🎤</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎧" title="Casque audio">🎧</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎸" title="Guitare">🎸</button>
-                            <button type="button" class="emoji-btn" data-emoji="🥁" title="Batterie">🥁</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎹" title="Piano">🎹</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎺" title="Trompette">🎺</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎻" title="Violon">🎻</button>
-                            <button type="button" class="emoji-btn" data-emoji="🪗" title="Accordéon">🪗</button>
-                            <button type="button" class="emoji-btn" data-emoji="🪕" title="Banjo">🪕</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎷" title="Saxophone">🎷</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎼" title="Partition">🎼</button>
-                            <button type="button" class="emoji-btn" data-emoji="🕺" title="Danseur">🕺</button>
-                            <button type="button" class="emoji-btn" data-emoji="💃" title="Danseuse">💃</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎤" title="Chanter">🎤</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎚️" title="Mixage">🎚️</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎛️" title="Table de mixage">🎛️</button>
-                            <button type="button" class="emoji-btn" data-emoji="🎙️" title="Micro vintage">🎙️</button>
-                            <button type="button" class="emoji-btn" data-emoji="🪩" title="Boule disco">🪩</button>
-                        </div>
+                        <label for="favoriteInstrument">Choisis ton instrument ou élément musical préféré :</label>
+                        <select id="favoriteInstrument" name="favoriteInstrument" required>
+                            <option value="">-- Sélectionne un instrument ou élément --</option>
+                            <option value="note">🎵 Note de musique</option>
+                            <option value="double-note">🎶 Double note</option>
+                            <option value="microphone">🎤 Microphone</option>
+                            <option value="casque">🎧 Casque audio</option>
+                            <option value="guitare">🎸 Guitare</option>
+                            <option value="batterie">🥁 Batterie</option>
+                            <option value="piano">🎹 Piano</option>
+                            <option value="trompette">🎺 Trompette</option>
+                            <option value="violon">🎻 Violon</option>
+                            <option value="accordeon">🪗 Accordéon</option>
+                            <option value="banjo">🪕 Banjo</option>
+                            <option value="saxophone">🎷 Saxophone</option>
+                            <option value="partition">🎼 Partition</option>
+                            <option value="danseur">🕺 Danseur</option>
+                            <option value="danseuse">💃 Danseuse</option>
+                            <option value="mixage">🎚️ Mixage</option>
+                            <option value="table-mixage">🎛️ Table de mixage</option>
+                            <option value="micro-vintage">🎙️ Micro vintage</option>
+                            <option value="boule-disco">🪩 Boule disco</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
