@@ -237,7 +237,7 @@ function startAutoRefresh() {
     // Actualisation automatique périodique
     autoRefreshInterval = setInterval(async () => {
         console.log('🔄 Actualisation automatique...');
-        await loadHumeursFromSupabase();
+        await loadArtistesFromSupabase();
     }, AUTO_REFRESH_INTERVAL);
 
     // Vérification de connexion périodique
@@ -249,7 +249,7 @@ function startAutoRefresh() {
                 if (!error) {
                     isConnected = true;
                     updateConnectionStatus(true);
-                    await loadHumeursFromSupabase();
+                    await loadArtistesFromSupabase();
                     console.log('✅ Reconnexion réussie');
                 }
             } catch (error) {
@@ -587,7 +587,7 @@ function toggleAdminPanel() {
                             background: #2196f3; color: white; border: none; padding: 12px 16px; 
                             border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;
                         ">💾 Export JSON</button>
-                        <button onclick="loadHumeursFromSupabase()" style="
+                        <button onclick="loadArtistesFromSupabase()" style="
                             background: #ff9800; color: white; border: none; padding: 12px 16px; 
                             border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;
                         ">🔄 Actualiser</button>
@@ -629,7 +629,7 @@ window.clearAllMoods = async function() {
         
         // Actualiser l'affichage
         setTimeout(() => {
-            loadHumeursFromSupabase();
+            loadArtistesFromSupabase();
         }, 1000);
         
         // Fermer le panel admin
