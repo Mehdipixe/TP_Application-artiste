@@ -50,7 +50,7 @@ async function initSupabase() {
         updateConnectionStatus(true);
         
         // Charger les données existantes
-        await loadHumeursFromSupabase();
+    await loadArtistesFromSupabase();
         
         // Configurer le temps réel
         setupRealtimeSubscription();
@@ -151,41 +151,32 @@ function updateConnectionStatus(connected) {
     }
 }
 
-async function loadHumeursFromSupabase() {
+async function loadArtistesFromSupabase() {
     if (!supabase || !isConnected) {
         console.log('⏭️ Chargement ignoré - Supabase non connecté');
         return;
     }
-
     try {
         console.log('📥 Chargement des artistes depuis Supabase...');
-        
         const { data, error } = await supabase
             .from('artistes')
             .select('*')
             .order('created_at', { ascending: false })
             .limit(100);
-
         if (error) {
             throw error;
         }
-
         artistes = data || [];
         updateDisplay();
         console.log(`📊 ${artistes.length} artistes chargés automatiquement`);
-        
-        // Réactiver la connexion si elle était en erreur
         if (!isConnected) {
             isConnected = true;
             updateConnectionStatus(true);
         }
-        
     } catch (error) {
         console.error('❌ Erreur chargement Supabase:', error);
         isConnected = false;
         updateConnectionStatus(false);
-        
-        // Optionnel : essayer de se reconnecter
         setTimeout(() => {
             console.log('🔄 Tentative de reconnexion automatique...');
             initSupabase();
@@ -209,10 +200,8 @@ function setupRealtimeSubscription() {
                 console.log('🔄 Changement temps réel:', payload.eventType);
 
                 if (payload.eventType === 'INSERT') {
-                    humeurs.unshift(payload.new);
+                    artistes.unshift(payload.new);
                     updateDisplay();
-
-                    // Animation d'arrivée
                     setTimeout(() => {
                         const newItem = document.querySelector('.mood-item');
                         if (newItem) {
@@ -223,7 +212,7 @@ function setupRealtimeSubscription() {
                         }
                     }, 100);
                 } else if (payload.eventType === 'DELETE') {
-                    loadHumeursFromSupabase();
+                    loadArtistesFromSupabase();
                 }
             }
         )
@@ -320,11 +309,11 @@ function setupEventListeners() {
 }
 
 // ========================================
-// GESTION DES HUMEURS
+// GESTION DES ARTISTES
 // ========================================
 
 async function submitMood() {
-    console.log('📝 Soumission d\'une nouvelle humeur...');
+    console.log('📝 Soumission d\'un nouvel artiste...');
     
     const nom = document.getElementById('studentName')?.value?.trim();
     const langagePrefere = document.getElementById('favoriteLanguage')?.value;
@@ -369,9 +358,7 @@ async function submitMood() {
         autre_preference: autrePreference,
         description: commentaire || null
     };
-
     console.log('📤 Données à envoyer:', artiste);
-
     const success = await addArtiste(artiste);
 
     if (success) {
@@ -379,16 +366,16 @@ async function submitMood() {
         if (submitBtn) {
             submitBtn.textContent = '✅ Envoyé avec succès !';
             setTimeout(() => {
-                submitBtn.textContent = '🚀 Partager mon humeur';
+                submitBtn.textContent = '🚀 Partager mon artiste';
                 submitBtn.disabled = false;
             }, 2500);
         }
-        console.log('✅ Humeur soumise avec succès');
+        console.log('✅ Artiste soumis avec succès');
     } else {
         if (submitBtn) {
             submitBtn.textContent = '❌ Erreur - Réessayer';
             setTimeout(() => {
-                submitBtn.textContent = '🚀 Partager mon humeur';
+                submitBtn.textContent = '🚀 Partager mon artiste';
                 submitBtn.disabled = false;
             }, 3000);
         }
@@ -396,54 +383,7 @@ async function submitMood() {
     }
 }
 
-async function addHumeur(humeur) {
-    if (!supabase) {
-        console.error('❌ Supabase non initialisé pour ajout artiste');
-        alert('Erreur : Connexion à la base de données non établie');
-        return false;
-    }
 
-    try {
-        console.log('🔍 Vérification anti-doublon...');
-        // Anti-doublon 5 minutes
-        const cinqMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-        const { data: existing, error: selectError } = await supabase
-            .from('artistes')
-            .select('*')
-            .eq('nom', artiste.nom)
-            .eq('style', artiste.style)
-            .eq('autre_preference', artiste.autre_preference)
-            .gte('created_at', cinqMinutesAgo)
-            .limit(1);
-
-        if (selectError) {
-            throw selectError;
-        }
-        
-        if (existing && existing.length > 0) {
-            console.warn('⚠️ Doublon détecté');
-            alert('Cet artiste a déjà été enregistré récemment. Attendez quelques minutes avant de renvoyer.');
-            return false;
-        }
-
-        console.log('💾 Insertion en base de données...');
-        const { error } = await supabase
-            .from('artistes')
-            .insert([artiste]);
-            
-        if (error) {
-            throw error;
-        }
-        
-        console.log('✅ Artiste ajouté à Supabase avec succès');
-        return true;
-        
-    } catch (error) {
-        console.error('❌ Erreur ajout Supabase:', error);
-        alert(`Erreur lors de l'envoi: ${error.message}`);
-        return false;
-    }
-}
 
 function resetForm() {
     const form = document.getElementById('moodForm');
@@ -451,8 +391,7 @@ function resetForm() {
         form.reset();
     }
     
-    document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
-    selectedEmoji = '';
+    // Nettoyage spécifique emoji supprimé
     console.log('🔄 Formulaire réinitialisé');
 }
 
@@ -491,25 +430,28 @@ function updateMoodList() {
     if (artistes.length === 0) {
         listContainer.innerHTML = `
             <div class="loading">
-                <p>🤖 En attente des premiers codes humeur...</p>
+                <p>🤖 En attente des premiers artistes...</p>
                 <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
-                    Partage ton humeur pour commencer !
+                    Partage ton artiste pour commencer !
                 </p>
             </div>
         `;
         return;
     }
 
-    listContainer.innerHTML = artistes.map(artiste => {
-        return `
-            <div class="mood-item">
-                <div class="mood-user">
-                    <span class="mood-name">${escapeHtml(artiste.nom)}</span>
-                    <span class="mood-artist">${escapeHtml(artiste.style || '')}</span>
+    const userName = document.getElementById('studentName')?.value?.trim();
+    listContainer.innerHTML = artistes
+        .filter(artiste => userName && artiste.nom !== userName)
+        .map(artiste => {
+            return `
+                <div class="mood-item">
+                    <div class="mood-user">
+                        <span class="mood-name">${escapeHtml(artiste.nom)}</span>
+                        <span class="mood-artist">${escapeHtml(artiste.style || '')}</span>
+                    </div>
                 </div>
-            </div>
-        `;
-    }).join('');
+            `;
+        }).join('');
 }
 
 function generateCodeSnippet(humeur) {
