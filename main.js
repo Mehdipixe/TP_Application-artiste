@@ -36,14 +36,14 @@ async function initSupabase() {
         // Initialisation du client via le module (avec attente intégrée)
         supabase = await getSupabaseClient();
         
-        // Test de connexion avec la table "humeur"
-        console.log('🧪 Test de connexion à la table humeur...');
-        const { data, error } = await supabase.from('humeur').select('count').limit(1);
+        // Test de connexion avec la table "artistes"
+        console.log('🧪 Test de connexion à la table artistes...');
+        const { data, error } = await supabase.from('artistes').select('count').limit(1);
         if (error) {
-            throw new Error(`Erreur de connexion à la table 'humeur': ${error.message}`);
+            throw new Error(`Erreur de connexion à la table 'artistes': ${error.message}`);
         }
         
-        console.log('🚀 Supabase connecté avec succès via module (table humeur accessible)');
+        console.log('🚀 Supabase connecté avec succès via module (table artistes accessible)');
         console.log('📊 URL configurée:', window.PRIVATE_CONFIG?.supabaseUrl);
         
         isConnected = true;
@@ -158,10 +158,10 @@ async function loadHumeursFromSupabase() {
     }
 
     try {
-        console.log('📥 Chargement des humeurs depuis Supabase...');
+        console.log('📥 Chargement des artistes depuis Supabase...');
         
         const { data, error } = await supabase
-            .from('humeur')
+            .from('artistes')
             .select('*')
             .order('created_at', { ascending: false })
             .limit(100);
@@ -170,9 +170,9 @@ async function loadHumeursFromSupabase() {
             throw error;
         }
 
-        humeurs = data || [];
-        updateDisplay();
-        console.log(`📊 ${humeurs.length} codes humeur chargés automatiquement`);
+    humeurs = data || [];
+    updateDisplay();
+    console.log(`📊 ${humeurs.length} artistes chargés automatiquement`);
         
         // Réactiver la connexion si elle était en erreur
         if (!isConnected) {
@@ -202,9 +202,9 @@ function setupRealtimeSubscription() {
     console.log('📡 Configuration du temps réel...');
 
     realtimeChannel = supabase
-        .channel('humeur_realtime')
+        .channel('artistes_realtime')
         .on('postgres_changes', 
-            { event: '*', schema: 'public', table: 'humeur' },
+            { event: '*', schema: 'public', table: 'artistes' },
             (payload) => {
                 console.log('🔄 Changement temps réel:', payload.eventType);
 
@@ -256,7 +256,7 @@ function startAutoRefresh() {
         if (!isConnected && supabase) {
             console.log('🔌 Tentative de reconnexion...');
             try {
-                const { data, error } = await supabase.from('humeur').select('count').limit(1);
+                const { data, error } = await supabase.from('artistes').select('count').limit(1);
                 if (!error) {
                     isConnected = true;
                     updateConnectionStatus(true);
@@ -365,17 +365,17 @@ async function submitMood() {
         submitBtn.textContent = '🔄 Envoi en cours...';
     }
 
-    const humeur = {
+
+    const artiste = {
         nom: nom,
-        emoji: selectedEmoji,
-        langage_prefere: langagePrefere,
+        style: langagePrefere,
         autre_preference: autrePreference,
-        commentaire: commentaire || null
+        description: commentaire || null
     };
 
-    console.log('📤 Données à envoyer:', humeur);
+    console.log('📤 Données à envoyer:', artiste);
 
-    const success = await addHumeur(humeur);
+    const success = await addArtiste(artiste);
 
     if (success) {
         resetForm();
@@ -401,23 +401,21 @@ async function submitMood() {
 
 async function addHumeur(humeur) {
     if (!supabase) {
-        console.error('❌ Supabase non initialisé pour ajout humeur');
+        console.error('❌ Supabase non initialisé pour ajout artiste');
         alert('Erreur : Connexion à la base de données non établie');
         return false;
     }
 
     try {
         console.log('🔍 Vérification anti-doublon...');
-        
         // Anti-doublon 5 minutes
         const cinqMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
         const { data: existing, error: selectError } = await supabase
-            .from('humeur')
+            .from('artistes')
             .select('*')
-            .eq('nom', humeur.nom)
-            .eq('emoji', humeur.emoji)
-            .eq('langage_prefere', humeur.langage_prefere)
-            .eq('autre_preference', humeur.autre_preference)
+            .eq('nom', artiste.nom)
+            .eq('style', artiste.style)
+            .eq('autre_preference', artiste.autre_preference)
             .gte('created_at', cinqMinutesAgo)
             .limit(1);
 
@@ -427,20 +425,20 @@ async function addHumeur(humeur) {
         
         if (existing && existing.length > 0) {
             console.warn('⚠️ Doublon détecté');
-            alert('Ce code humeur a déjà été enregistré récemment. Attendez quelques minutes avant de renvoyer.');
+            alert('Cet artiste a déjà été enregistré récemment. Attendez quelques minutes avant de renvoyer.');
             return false;
         }
 
         console.log('💾 Insertion en base de données...');
         const { error } = await supabase
-            .from('humeur')
-            .insert([humeur]);
+            .from('artistes')
+            .insert([artiste]);
             
         if (error) {
             throw error;
         }
         
-        console.log('✅ Humeur ajoutée à Supabase avec succès');
+        console.log('✅ Artiste ajouté à Supabase avec succès');
         return true;
         
     } catch (error) {
@@ -479,8 +477,8 @@ function updateStats() {
     if (totalEl) totalEl.textContent = humeurs.length;
     
     if (varietyEl) {
-        const uniqueEmojis = new Set(humeurs.map(h => h.emoji));
-        varietyEl.textContent = uniqueEmojis.size;
+        const uniqueStyles = new Set(humeurs.map(h => h.style));
+        varietyEl.textContent = uniqueStyles.size;
     }
     
     if (timeEl) {
