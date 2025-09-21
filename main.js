@@ -1,3 +1,37 @@
+// Soumission d'une humeur dans la table 'humeurs'
+async function addHumeur(humeur) {
+    if (!supabase) {
+        console.error('❌ Supabase non initialisé pour ajout humeur');
+        alert('Erreur : Connexion à la base de données non établie');
+        return false;
+    }
+    try {
+        // Anti-doublon 5 minutes
+        const cinqMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+        const { data: existing, error: selectError } = await supabase
+            .from('humeurs')
+            .select('*')
+            .eq('nom', humeur.nom)
+            .eq('emoji', humeur.emoji)
+            .eq('langage_prefere', humeur.langage_prefere)
+            .gte('created_at', cinqMinutesAgo)
+            .limit(1);
+        if (selectError) throw selectError;
+        if (existing && existing.length > 0) {
+            alert('Cette humeur a déjà été enregistrée récemment.');
+            return false;
+        }
+        const { error } = await supabase
+            .from('humeurs')
+            .insert([humeur]);
+        if (error) throw error;
+        return true;
+    } catch (error) {
+        console.error('❌ Erreur ajout humeur:', error);
+        alert(`Erreur lors de l\'envoi: ${error.message}`);
+        return false;
+    }
+}
 // main.js - Version avec module corrigé
 // ========================================
 // CONFIGURATION ET INITIALISATION
@@ -314,69 +348,53 @@ function setupEventListeners() {
 // ========================================
 
 async function submitMood() {
-    console.log('📝 Soumission d\'un nouvel artiste...');
-    
+    console.log('📝 Soumission d\'un code humeur...');
     const nom = document.getElementById('studentName')?.value?.trim();
+    const emoji = selectedEmoji;
     const langagePrefere = document.getElementById('favoriteLanguage')?.value;
-    const autrePreference = document.getElementById('otherPreference')?.value;
     const commentaire = document.getElementById('comment')?.value?.trim();
     const submitBtn = document.getElementById('submitBtn');
 
-    // Empêcher double soumission
-    if (submitBtn?.disabled) {
-        console.log('⏭️ Soumission ignorée - bouton déjà désactivé');
-        return;
-    }
-    
-    // Validations
-    // Suppression de l'obligation d'alerte sur l'emoji
-
+    if (submitBtn?.disabled) return;
     if (!nom || nom.length < 2) {
         alert('Le prénom doit contenir au moins 2 caractères');
         return;
     }
-
+    if (!emoji) {
+        alert('Choisis un emoji !');
+        return;
+    }
     if (!langagePrefere) {
         alert('Choisis ton langage préféré !');
         return;
     }
-
-    if (!autrePreference) {
-        alert('Choisis ta préférence additionnelle !');
-        return;
-    }
-
-    // Désactiver le formulaire
     if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = '🔄 Envoi en cours...';
     }
-
-
-    const artiste = {
+    const humeur = {
         nom: nom,
-        style: langagePrefere,
-        autre_preference: autrePreference,
-        description: commentaire || null
+        emoji: emoji,
+        langage_prefere: langagePrefere,
+        commentaire: commentaire || null
     };
-    console.log('📤 Données à envoyer:', artiste);
-    const success = await addArtiste(artiste);
-
+    console.log('📤 Données à envoyer:', humeur);
+    const success = await addHumeur(humeur);
     if (success) {
         resetForm();
         if (submitBtn) {
             submitBtn.textContent = '✅ Envoyé avec succès !';
             setTimeout(() => {
-                submitBtn.textContent = '🚀 Partager mon artiste';
+                submitBtn.textContent = '🚀 Partager mon humeur';
                 submitBtn.disabled = false;
             }, 2500);
         }
-        console.log('✅ Artiste soumis avec succès');
+        console.log('✅ Humeur soumise avec succès');
     } else {
         if (submitBtn) {
             submitBtn.textContent = '❌ Erreur - Réessayer';
             setTimeout(() => {
-                submitBtn.textContent = '🚀 Partager mon artiste';
+                submitBtn.textContent = '🚀 Partager mon humeur';
                 submitBtn.disabled = false;
             }, 3000);
         }
