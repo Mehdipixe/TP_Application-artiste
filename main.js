@@ -8,6 +8,7 @@ console.log('🎭 Emoji Code Humeur - Version Module Corrigé v2.3');
 // Variables globales
 let supabase = null;
 let artistes = [];
+let humeurs = [];
 let selectedEmoji = '';
 let sessionStartTime = new Date();
 let autoRefreshInterval = null;
