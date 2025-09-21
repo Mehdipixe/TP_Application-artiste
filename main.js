@@ -7,7 +7,7 @@ console.log('🎭 Emoji Code Humeur - Version Module Corrigé v2.3');
 
 // Variables globales
 let supabase = null;
-let humeurs = [];
+let artistes = [];
 let selectedEmoji = '';
 let sessionStartTime = new Date();
 let autoRefreshInterval = null;
@@ -170,9 +170,9 @@ async function loadHumeursFromSupabase() {
             throw error;
         }
 
-    humeurs = data || [];
-    updateDisplay();
-    console.log(`📊 ${humeurs.length} artistes chargés automatiquement`);
+        artistes = data || [];
+        updateDisplay();
+        console.log(`📊 ${artistes.length} artistes chargés automatiquement`);
         
         // Réactiver la connexion si elle était en erreur
         if (!isConnected) {
@@ -471,10 +471,10 @@ function updateStats() {
     const varietyEl = document.getElementById('moodVariety');
     const timeEl = document.getElementById('sessionTime');
     
-    if (totalEl) totalEl.textContent = humeurs.length;
+    if (totalEl) totalEl.textContent = artistes.length;
     
     if (varietyEl) {
-        const uniqueStyles = new Set(humeurs.map(h => h.style));
+        const uniqueStyles = new Set(artistes.map(a => a.style));
         varietyEl.textContent = uniqueStyles.size;
     }
     
@@ -488,7 +488,7 @@ function updateMoodList() {
     const listContainer = document.getElementById('moodList');
     if (!listContainer) return;
 
-    if (humeurs.length === 0) {
+    if (artistes.length === 0) {
         listContainer.innerHTML = `
             <div class="loading">
                 <p>🤖 En attente des premiers codes humeur...</p>
@@ -500,23 +500,12 @@ function updateMoodList() {
         return;
     }
 
-    listContainer.innerHTML = humeurs.map(humeur => {
-        const timeDisplay = formatTime(humeur.created_at);
-        const isRecent = new Date() - new Date(humeur.created_at) < 60000;
+    listContainer.innerHTML = artistes.map(artiste => {
         return `
-            <div class="mood-item ${isRecent ? 'new-post' : ''}">
-                <div class="mood-header">
-                    <div class="mood-user">
-                        <span class="mood-name">${escapeHtml(humeur.nom)}</span>
-                        <span class="mood-lang">${humeur.style || humeur.langage_prefere}</span>
-                    </div>
-                    <span class="mood-time">${timeDisplay}</span>
-                </div>
-                <div class="mood-content">
-                    ${humeur.commentaire ? `<div class="mood-comment">"${escapeHtml(humeur.commentaire)}"</div>` : ''}
-                    <div class="mood-tags">
-                        <span class="tag">${formatPreference(humeur.autre_preference)}</span>
-                    </div>
+            <div class="mood-item">
+                <div class="mood-user">
+                    <span class="mood-name">${escapeHtml(artiste.nom)}</span>
+                    <span class="mood-artist">${escapeHtml(artiste.style || '')}</span>
                 </div>
             </div>
         `;
@@ -578,8 +567,8 @@ function updateVisualization() {
     }
 
     const styleCounts = {};
-    humeurs.forEach(humeur => {
-        styleCounts[humeur.style] = (styleCounts[humeur.style] || 0) + 1;
+    artistes.forEach(artiste => {
+        styleCounts[artiste.style] = (styleCounts[artiste.style] || 0) + 1;
     });
     container.innerHTML = `
         <div class="viz-section">
@@ -630,7 +619,7 @@ function toggleAdminPanel() {
                     <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                         <p style="margin: 0; font-size: 14px; line-height: 1.6;">
                             <strong>📊 Statistiques :</strong><br>
-                            • ${humeurs.length} participants<br>
+                            • ${artistes.length} participants<br>
                             • Session : ${Math.floor((new Date() - sessionStartTime) / 60000)} minutes<br><br>
                             <strong>⌨️ Raccourcis :</strong><br>
                             • <kbd>Ctrl+Shift+A</kbd> : Ce panneau<br>
