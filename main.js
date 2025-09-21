@@ -339,10 +339,7 @@ async function submitMood() {
     }
     
     // Validations
-    if (!selectedEmoji) {
-        alert('N\'oublie pas de choisir un emoji ! 😊');
-        return;
-    }
+    // Suppression de l'obligation d'alerte sur l'emoji
 
     if (!nom || nom.length < 2) {
         alert('Le prénom doit contenir au moins 2 caractères');
@@ -504,22 +501,18 @@ function updateMoodList() {
     }
 
     listContainer.innerHTML = humeurs.map(humeur => {
-        const codeSnippet = generateCodeSnippet(humeur);
         const timeDisplay = formatTime(humeur.created_at);
         const isRecent = new Date() - new Date(humeur.created_at) < 60000;
-        
         return `
             <div class="mood-item ${isRecent ? 'new-post' : ''}">
                 <div class="mood-header">
                     <div class="mood-user">
                         <span class="mood-name">${escapeHtml(humeur.nom)}</span>
-                        <span class="mood-emoji">${humeur.emoji}</span>
-                        <span class="mood-lang">${humeur.langage_prefere}</span>
+                        <span class="mood-lang">${humeur.style || humeur.langage_prefere}</span>
                     </div>
                     <span class="mood-time">${timeDisplay}</span>
                 </div>
                 <div class="mood-content">
-                    <div class="mood-code">${codeSnippet}</div>
                     ${humeur.commentaire ? `<div class="mood-comment">"${escapeHtml(humeur.commentaire)}"</div>` : ''}
                     <div class="mood-tags">
                         <span class="tag">${formatPreference(humeur.autre_preference)}</span>
@@ -584,38 +577,20 @@ function updateVisualization() {
         return;
     }
 
-    const emojiCounts = {};
-    const langageCounts = {};
-    
+    const styleCounts = {};
     humeurs.forEach(humeur => {
-        emojiCounts[humeur.emoji] = (emojiCounts[humeur.emoji] || 0) + 1;
-        langageCounts[humeur.langage_prefere] = (langageCounts[humeur.langage_prefere] || 0) + 1;
+        styleCounts[humeur.style] = (styleCounts[humeur.style] || 0) + 1;
     });
-
     container.innerHTML = `
         <div class="viz-section">
-            <h4>🎭 Top Émojis</h4>
+            <h4>🎤 Artistes les plus cités</h4>
             <div class="viz-items">
-                ${Object.entries(emojiCounts)
+                ${Object.entries(styleCounts)
                     .sort((a, b) => b[1] - a[1])
                     .slice(0, 5)
-                    .map(([emoji, count]) => `
-                        <div class="mood-bubble">
-                            <span>${emoji}</span>
-                            <span class="mood-count">${count}</span>
-                        </div>
-                    `).join('')}
-            </div>
-        </div>
-        <div class="viz-section">
-            <h4>💻 Langages Populaires</h4>
-            <div class="viz-items">
-                ${Object.entries(langageCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 3)
-                    .map(([langage, count]) => `
+                    .map(([style, count]) => `
                         <div class="lang-bubble">
-                            <span>${langage}</span>
+                            <span>${style}</span>
                             <span class="lang-count">${count}</span>
                         </div>
                     `).join('')}
@@ -656,7 +631,6 @@ function toggleAdminPanel() {
                         <p style="margin: 0; font-size: 14px; line-height: 1.6;">
                             <strong>📊 Statistiques :</strong><br>
                             • ${humeurs.length} participants<br>
-                            • ${new Set(humeurs.map(h => h.emoji)).size} emojis différents<br>
                             • Session : ${Math.floor((new Date() - sessionStartTime) / 60000)} minutes<br><br>
                             <strong>⌨️ Raccourcis :</strong><br>
                             • <kbd>Ctrl+Shift+A</kbd> : Ce panneau<br>
@@ -741,8 +715,7 @@ window.exportMoods = function() {
 
     const exportData = humeurs.map(humeur => ({
         'Prénom': humeur.nom,
-        'Emoji': humeur.emoji,
-        'Langage Préféré': humeur.langage_prefere,
+        'Style': humeur.style,
         'Autre Préférence': humeur.autre_preference || '',
         'Commentaire': humeur.commentaire || '',
         'Date/Heure': formatTime(humeur.created_at),
